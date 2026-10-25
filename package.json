@@ -1,0 +1,10 @@
+{
+  "name": "midnight-paw",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check dist/game3d.js && node --check dist/controllers.js && node --check dist/world3d.js && node --check dist/cat-model.js && node --check dist/engine.js && node --test verify.mjs verify-3d.mjs verify-controls.mjs"
+  }
+}
