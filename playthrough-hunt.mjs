@@ -1,0 +1,6 @@
+import assert from 'node:assert/strict';
+import {HuntGame,distance,solid} from './dist/engine.js';
+function rng(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};}
+const results=[];
+for(const [seed,cat] of [[5,'monaka'],[123,'monaka'],[2026,'monaka'],[5,'ohagi'],[5,'daifuku']]){const g=new HuntGame(rng(seed));g.selectCat(cat);g.start();let steps=0;while(g.mode!=='won'&&steps++<20000){if(g.mode==='stageclear'){g.nextStage();continue;}assert.notEqual(g.mode,'gameover','Stage '+g.level+' timed out: '+JSON.stringify({seed,cat,caught:g.caught,player:g.player,near:g.nearestMouse}));const m=g.nearestMouse;if(!m){g.update(.04);continue;}const dx=m.x-g.player.x,dz=m.z-g.player.z,a=Math.atan2(dx,dz);if(distance(m,g.player)<4.4&&g.meowCooldown===0)g.meow();if(distance(m,g.player)<3.6&&g.pounceCooldown===0)g.pounce();let input=null;for(const off of [0,.55,-.55,1.1,-1.1,1.8,-1.8,Math.PI]){const x=Math.sin(a+off),y=Math.cos(a+off);if(!solid(g.player.x+x*.45,g.player.z+y*.45,.32,g.player.y)){input={x,y};break;}}g.update(.04,input||{x:0,y:0});}assert.equal(g.mode,'won');assert.equal(g.totalCaught,80);results.push({seed,cat,score:g.score,seconds:Math.round(g.time),caught:g.totalCaught});}
+console.log(JSON.stringify({result:'5 stages completed by movement, pounce and meow; mice flee normally',runs:results},null,2));
