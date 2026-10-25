@@ -1,9 +1,0 @@
-# タイトル横のイラスト
-
-組み込みの image_gen を使用。猫のアニメ風イラストをスタイル参照に、美術館・泥棒猫モナカ・金色のおさかなを組み合わせた透過画像を生成。
-
-保存先：`dist/assets/museum-cat-fish-header.png`。タイトル右側に配置し、単体HTML版にはデータとして埋め込んでいます。
-
-## Prompt
-
-Use case: illustration-story. Asset type: transparent decorative header illustration for the Japanese cute 3D browser game 'どろぼう猫とおさかな美術館'. The supplied cat lineup is a STYLE AND CHARACTER REFERENCE, not an edit target. Create one cohesive, charming anime chibi vignette that visually expresses exactly three elements: a small nighttime art museum, a mischievous thief cat, and a golden fish treasure. Composition: a compact horizontal cluster, about 3:2 aspect ratio. On the left behind the cat: a miniature ivory and dusty lavender museum with a classical triangular pediment, three small columns, an arched mint-lit doorway, and a tiny framed golden fish artwork. Front center: the reference LEFT cat Monaka, gray-brown striped tabby with broad white nose blaze, white muzzle chest and paws, pale yellow-green eyes and mint neckerchief; a tiny dark navy thief eye-mask pushed up onto forehead so eyes and white blaze remain visible. Monaka is sneaking on four cute paws, looking toward the fish, with a cheeky gentle smile and curled striped tail. Right: one large, recognizable golden fish treasure hovering just ahead of the cat's reaching white paw. A couple of small cream and mint sparkles unify the cluster. Style matches reference: polished Japanese anime storybook art, expressive eyes, delicate warm outlines, soft cel shading, cuddly proportions, readable at small UI sizes. Color palette coordinates with a dark navy game header: warm ivory #f4eedf, mint #a8dbc5, champagne gold #e4c388, muted lavender. Crisp separate silhouettes. Keep every element fully within frame with breathing room. Real alpha transparent background, no solid backdrop, no checkerboard, no ground plane. No words, lettering, logos, labels, additional cats, people, or border.
