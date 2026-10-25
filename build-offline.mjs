@@ -1,4 +1,5 @@
 import {readFile,writeFile} from 'node:fs/promises';
+import {assembleOfflineHtml,verifyOfflineHtml} from './offline-html.mjs';
 const read=p=>readFile(new URL(p,import.meta.url),'utf8');
 const strip=s=>s.replace(/^import[^\n]+\n/gm,'').replace(/\bexport\s+(?=(?:const|let|function|class)\b)/g,'');
 const raw=await read('./dist/vendor/three.module.min.js');
@@ -17,5 +18,10 @@ if(/\bimport\s/.test(script))throw new Error('Offline build still contains impor
 const art=(await readFile(new URL('./dist/assets/cat-trio-anime.png',import.meta.url))).toString('base64');
 const css=`:root{--cat-art:url("data:image/png;base64,${art}")}\n`+(await read('./dist/style.css')).replace(/@import\s+url\([^;]+;/g,'').replaceAll("url('assets/cat-trio-anime.png')",'var(--cat-art)');
 const headerArt=(await readFile(new URL('./dist/assets/museum-cat-fish-header.png',import.meta.url))).toString('base64');
-const html=(await read('./dist/index.html')).replace('href="./"','href="#"').replace('<link rel="stylesheet" href="style.css">',`<style>${css}</style>`).replace('src="assets/museum-cat-fish-header.png"',`src="data:image/png;base64,${headerArt}"`).replace('<script type="module" src="game3d.js"></script>',`<script type="module">${script.replaceAll('</script','<\\/script')}</script>`);
-const out=new URL('../midnight-paw-3d.html',import.meta.url);await writeFile(out,html);await writeFile(new URL('./offline-script-check.mjs',import.meta.url),script);console.log(`Offline game: ${out.pathname}`);
+const html=assembleOfflineHtml({template:await read('./dist/index.html'),css,headerArt,script});
+const out=new URL('../index.html',import.meta.url);
+await writeFile(out,html);
+const embedded=verifyOfflineHtml(await readFile(out,'utf8'),script);
+await writeFile(new URL('../midnight-paw-3d.html',import.meta.url),html);
+await writeFile(new URL('./offline-script-check.mjs',import.meta.url),embedded);
+console.log(`Offline game verified: ${out.pathname}`);
