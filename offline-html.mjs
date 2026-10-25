@@ -1,5 +1,15 @@
 import {Script} from 'node:vm';
 
+export function removeCssImports(css){
+ return css.replace(/@import\s+(?:url\(\s*(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|[^)]*)\s*\)|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')[^;]*;/gi,'');
+}
+
+export function catAssetBootstrap(base64){
+ // Large data URLs can exceed browser CSS-custom-property limits. Keep only
+ // the short blob URL in CSS; the PNG remains embedded in the standalone file.
+ return `/* OFFLINE_CAT_ASSET_START */\n(()=>{const bytes=Uint8Array.from(atob(${JSON.stringify(base64)}),c=>c.charCodeAt(0));const url=URL.createObjectURL(new Blob([bytes],{type:'image/png'}));document.documentElement.style.setProperty('--cat-art',\`url("\${url}")\`);})();\n/* OFFLINE_CAT_ASSET_END */`;
+}
+
 function replaceRequired(source,needle,value){
  if(source.split(needle).length!==2)throw new Error(`Expected one HTML placeholder: ${needle}`);
  // A replacement string would interpret $&, $` and $' inside the library code.

@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {runInNewContext} from 'node:vm';
-import {assembleOfflineHtml,verifyOfflineHtml,escapeInlineScript} from './offline-html.mjs';
+import {assembleOfflineHtml,verifyOfflineHtml,escapeInlineScript,removeCssImports,catAssetBootstrap} from './offline-html.mjs';
 
 const template='<!doctype html><html><head><link rel="stylesheet" href="style.css"></head><body><img src="assets/museum-cat-fish-header.png"><script type="module" src="game3d.js"></script></body></html>';
 const make=script=>assembleOfflineHtml({template,css:'body{color:white}',headerArt:'AAAA',script});
@@ -38,4 +38,29 @@ test('the written standalone game contains the exact checked code and embedded i
  assert.ok(html.includes('src="data:image/png;base64,'));
  assert.ok(html.includes('const THREE='));assert.ok(html.includes('const CONTROLLERS='));
  assert.ok(!/src="assets\//.test(html));
+ const css=html.match(/<style>([\s\S]*?)<\/style>/)[1];
+ assert.ok(css.trimStart().startsWith(':root{'));
+ assert.ok(css.includes('--bg:#191e32'));
+ assert.ok(!css.includes('display=swap'));
+ assert.ok(!css.includes('data:image/png;base64,'));
+ assert.ok(checked.includes('OFFLINE_CAT_ASSET_START'));
+});
+
+test('removing a font import preserves the CSS after semicolons inside its URL',()=>{
+ const rule=':root{--bg:#191e32;--cream:#f4eedf}';
+ for(const quote of ['"',"'"]){
+  const input=`@import url(${quote}https://example.test/font?family=Test:wght@400;500;900&display=swap${quote});\n${rule}`;
+  assert.equal(removeCssImports(input).trim(),rule);
+ }
+ assert.equal(removeCssImports(`@import url("font;a;b");${rule}`),rule);
+});
+
+test('the embedded cat PNG becomes a short CSS blob URL with identical image bytes',async()=>{
+ const data=await readFile(new URL('./dist/assets/cat-trio-anime.png',import.meta.url));
+ let stored,created;
+ const context={atob,Uint8Array,Blob,URL:{createObjectURL(blob){created=blob;return 'blob:cat-test';}},document:{documentElement:{style:{setProperty(key,value){stored={key,value};}}}}};
+ runInNewContext(catAssetBootstrap(data.toString('base64')),context);
+ assert.deepEqual(stored,{key:'--cat-art',value:'url("blob:cat-test")'});
+ assert.equal(created.type,'image/png');
+ assert.deepEqual(Buffer.from(await created.arrayBuffer()),data);
 });

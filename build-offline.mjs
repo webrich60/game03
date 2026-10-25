@@ -1,5 +1,5 @@
 import {readFile,writeFile} from 'node:fs/promises';
-import {assembleOfflineHtml,verifyOfflineHtml} from './offline-html.mjs';
+import {assembleOfflineHtml,verifyOfflineHtml,removeCssImports,catAssetBootstrap} from './offline-html.mjs';
 const read=p=>readFile(new URL(p,import.meta.url),'utf8');
 const strip=s=>s.replace(/^import[^\n]+\n/gm,'').replace(/\bexport\s+(?=(?:const|let|function|class)\b)/g,'');
 const raw=await read('./dist/vendor/three.module.min.js');
@@ -13,15 +13,16 @@ const model=`const CATMODEL=(()=>{const T=THREE;const {findCat}=CATS;${strip(awa
 const world=`const WORLD=(()=>{const T=THREE;const {createCat,animateCat}=CATMODEL;${strip(await read('./dist/world3d.js'))};return {MuseumWorld};})();`;
 const controls=`const CONTROLLERS=(()=>{${strip(await read('./dist/controllers.js'))};return {VirtualStick,movementVector,cameraDelta};})();`;
 const runtime=`const {MuseumGame,stages}=ENGINE;const {cats,findCat}=CATS;const {MuseumWorld}=WORLD;const {VirtualStick,movementVector,cameraDelta}=CONTROLLERS;${strip(await read('./dist/game3d.js'))}`;
-const script=[three,cats,engine,model,world,controls,runtime].join('\n');
-if(/\bimport\s/.test(script))throw new Error('Offline build still contains imports');
 const art=(await readFile(new URL('./dist/assets/cat-trio-anime.png',import.meta.url))).toString('base64');
-const css=`:root{--cat-art:url("data:image/png;base64,${art}")}\n`+(await read('./dist/style.css')).replace(/@import\s+url\([^;]+;/g,'').replaceAll("url('assets/cat-trio-anime.png')",'var(--cat-art)');
+const script=[catAssetBootstrap(art),three,cats,engine,model,world,controls,runtime].join('\n');
+if(/\bimport\s/.test(script))throw new Error('Offline build still contains imports');
+const css=removeCssImports(await read('./dist/style.css')).replaceAll("url('assets/cat-trio-anime.png')",'var(--cat-art)');
 const headerArt=(await readFile(new URL('./dist/assets/museum-cat-fish-header.png',import.meta.url))).toString('base64');
 const html=assembleOfflineHtml({template:await read('./dist/index.html'),css,headerArt,script});
 const out=new URL('../index.html',import.meta.url);
 await writeFile(out,html);
 const embedded=verifyOfflineHtml(await readFile(out,'utf8'),script);
 await writeFile(new URL('../midnight-paw-3d.html',import.meta.url),html);
+await writeFile(new URL('../midnight-paw-3d-fixed.html',import.meta.url),html);
 await writeFile(new URL('./offline-script-check.mjs',import.meta.url),embedded);
 console.log(`Offline game verified: ${out.pathname}`);
