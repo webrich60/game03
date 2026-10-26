@@ -16,6 +16,23 @@ export function movementVector(keyX,keyY,stick,yaw=0){
 
 export function cameraDelta(stick,dt){return {yaw:stick.x*1.9*dt,pitch:stick.y*.8*dt};}
 
+// Each action owns only its own pointer. A second finger never cancels a stick.
+export class ActionButton{
+ constructor(element,action,enabled=()=>true){
+  this.element=element;this.pointer=null;
+  element.addEventListener('pointerdown',event=>{
+   if(event.button>0||element.disabled||!enabled()||this.pointer!==null)return;
+   event.preventDefault();event.stopPropagation();this.pointer=event.pointerId;
+   element.setPointerCapture(event.pointerId);element.classList.add('pressed');action();
+  });
+  for(const name of ['pointerup','pointercancel','lostpointercapture'])element.addEventListener(name,event=>{if(event.pointerId===this.pointer)this.reset();});
+  // Keyboard/assistive clicks have detail 0; pointer clicks already fired on down.
+  element.addEventListener('click',event=>{event.preventDefault();if(event.detail===0&&!element.disabled&&enabled())action();});
+  element.addEventListener('contextmenu',event=>event.preventDefault());
+ }
+ reset(){const pointer=this.pointer;this.pointer=null;this.element.classList.remove('pressed');if(pointer!==null&&this.element.hasPointerCapture(pointer))this.element.releasePointerCapture(pointer);}
+}
+
 export class VirtualStick{
  constructor(element,enabled=()=>true){
   this.element=element;this.enabled=enabled;this.pointer=null;this.x=0;this.y=0;

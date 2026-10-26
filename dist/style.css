@@ -31,3 +31,86 @@ dialog{max-width:490px;width:calc(100% - 30px);max-height:88svh;overflow:auto;ba
 @media(max-height:560px) and (orientation:landscape){.cat-speech{font-size:10px;top:48%;padding:5px 9px;max-width:65%}}
 .cat-profile p{font-size:11px;line-height:1.7}.cat-profile q{font-size:11px}
 @media(max-width:520px){.cat-profile p,.cat-profile q{font-size:10px}}
+:root{--castella-art:url('assets/castella-anime.png')}
+.portrait-castella{background-image:var(--castella-art);background-size:contain;background-position:center;background-repeat:no-repeat}
+.cat-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.cat-options button{display:flex;align-items:center;gap:6px;padding:7px 6px;text-align:left}
+.cat-options .cat-portrait{width:55px;height:60px;flex:0 0 55px}
+.cat-options strong{font-size:11px;margin:0;min-width:0}
+.cat-options strong small{font-size:7px;line-height:1.5}
+.cat-options button[data-cat=castella].selected{background:#eee6f7;border-color:#b8a1ce;box-shadow:0 0 0 1px #b8a1ce}
+.cat-options [data-cat=castella] small{color:#8b72a6}
+.hero-cats{width:300px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+.hero-cats .cat-portrait{width:100%;height:auto;aspect-ratio:1}
+@media(min-width:851px){.cat-options button{flex-direction:column;text-align:center;gap:5px}.cat-options .cat-portrait{width:82px;height:82px;flex-basis:82px}.cat-options strong small{font-size:8px}}
+@media(max-width:850px){.cat-options .cat-portrait{width:45px;height:48px;flex-basis:45px}.cat-options strong{font-size:12px}.cat-options strong small{font-size:9px}}
+@media(max-width:520px){.cat-options .cat-portrait{width:43px;height:45px;flex-basis:43px}.cat-options strong{font-size:11px}.cat-options strong small{font-size:8px}.hero-cats{width:128px;grid-template-columns:repeat(2,minmax(0,1fr));max-width:38%}.hero-cats .cat-portrait{width:100%;height:auto}.hero-cats b{bottom:2px;font-size:7px;padding:3px 6px}.title-row{min-height:145px}.cat-picker .secondary{font-size:7px}.welcome-cat.portrait-castella{width:110px;height:110px}}
+
+/* Play controls: right hand moves, left hand uses independent actions. */
+.dual-controls.hunt-controls{inset:auto max(16px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
+.hunt-controls .left-controls{width:138px;display:flex;flex-direction:column;align-items:flex-start;gap:9px;pointer-events:none}
+.hunt-controls #look-stick{--size:68px;width:var(--size);height:var(--size);flex-basis:var(--size);opacity:.82}
+.hunt-controls #move-stick{--size:120px;width:var(--size);height:var(--size);flex-basis:var(--size)}
+.hunt-controls .control-actions{display:grid;grid-template-columns:64px 64px;grid-template-rows:64px;gap:10px;pointer-events:none}
+.hunt-controls #jump,.hunt-controls #meow{grid-column:auto;grid-row:auto;position:relative;overflow:hidden;min-height:64px;border-radius:50%;padding:5px 2px;font-size:27px;touch-action:none;pointer-events:auto;-webkit-touch-callout:none;user-select:none;cursor:pointer}
+.hunt-controls #meow{background:#f5e9d9eb}
+.hunt-controls #jump small,.hunt-controls #meow small{font-size:10px;line-height:1.3;white-space:nowrap;margin-top:2px}
+.hunt-controls button::after{content:'';position:absolute;left:15%;bottom:5px;height:3px;width:calc(var(--ready,100%) * .7);border-radius:3px;background:#6a976b;pointer-events:none}
+.hunt-controls button:disabled{opacity:.48}
+.hunt-controls button.pressed{transform:scale(.95);background:#c8e3c2}
+.hunt-controls .stick-label{font-size:11px;letter-spacing:1px}
+.hunt-controls #look-stick .stick-label{font-size:9px;bottom:3px}
+/* Scores stay outside the 3D view. No catch banners or speech over the hunt. */
+.game-bottom{height:36px;justify-content:flex-start;gap:9px;white-space:nowrap}
+.game-bottom #combo-chip{position:static;transform:none;animation:none;background:#ead4a1;color:#735a2e;text-shadow:none;font-size:12px;padding:3px 7px;line-height:1;border-radius:7px}
+.game-bottom #combo-chip[hidden]{display:none}
+.game-bottom #buffs{position:static;max-width:none;display:flex;flex-direction:row;align-items:center;gap:5px}
+.game-bottom #buffs span{font-size:11px;padding:3px 5px;border:0;line-height:1.3}
+.game-bottom .speed-note{margin-left:auto}
+.is-playing #status{display:none}
+.camera-actions{top:10px;right:10px}
+.camera-actions button{font-size:10px;min-height:34px}
+@media(max-width:520px){
+ .dual-controls.hunt-controls{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom))}
+ .hunt-controls .left-controls{width:118px;gap:8px}
+ .hunt-controls .control-actions{grid-template-columns:55px 55px;grid-template-rows:55px;gap:8px}
+ .hunt-controls #jump,.hunt-controls #meow{min-height:55px;font-size:23px}
+ .hunt-controls #jump small,.hunt-controls #meow small{font-size:9px}
+ .hunt-controls #move-stick{--size:102px}
+ .hunt-controls #look-stick{--size:60px}
+ .game-bottom{height:33px}
+ .game-bottom .speed-note{font-size:8px}
+ .game-bottom #buffs span{font-size:10px}
+}
+@media(max-width:360px){
+ .dual-controls.hunt-controls{left:10px;right:10px;gap:12px}
+ .hunt-controls .left-controls{width:110px}
+ .hunt-controls .control-actions{grid-template-columns:51px 51px;grid-template-rows:51px;gap:8px}
+ .hunt-controls #jump,.hunt-controls #meow{min-height:51px}
+ .hunt-controls #move-stick{--size:94px}
+ .hunt-controls #look-stick{--size:56px}
+}
+@media(max-height:560px) and (orientation:landscape){
+ .hunt-controls .left-controls{width:128px;gap:7px}
+ .hunt-controls #look-stick{--size:54px}
+ .hunt-controls #move-stick{--size:96px}
+ .hunt-controls .control-actions{grid-template-columns:58px 58px;grid-template-rows:53px;gap:10px}
+ .hunt-controls #jump,.hunt-controls #meow{min-height:53px}
+ .camera-actions{top:8px;right:10px}
+}
+
+.park-tour-button{position:static;width:100%;margin-top:9px;border:1px solid #c8cdb7;border-radius:8px;background:#f7f1df;color:#657f64;min-height:40px;font:inherit;font-size:11px;padding:8px 6px}.park-tour-button:hover{background:#e7eddb}.park-tools [aria-pressed=true]{background:#d7e9c8;border-color:#8caa78;color:#3e6647}.park-tools button{min-width:44px;min-height:44px}.park-tools>strong{font-size:11px}.park-tools{z-index:4}.park-tools>div{gap:5px;flex-wrap:wrap}@media(max-width:520px){.park-tour-button{font-size:10px;min-height:40px}.park-tools button{padding:7px 9px;font-size:11px;min-height:44px}.park-tools>strong{font-size:10px}}
+
+.is-touring .arcade-bar{display:none}.is-touring .game-bottom #combo-chip,.is-touring .game-bottom #buffs,.is-touring .game-bottom .speed-note{display:none}.is-touring #status{max-width:100%}
+
+/* Clearer panel edges, with the existing cream and pastel colours. */
+:root{--line:#c2bba5;--frame:#8c987e;--frame-inner:#aaa083}
+.play-area,.cat-picker,.bonus-guide,dialog{border-color:var(--frame);border-width:2px}
+.cat-options button{border-color:var(--frame-inner)}
+.cat-options button[data-cat=monaka]{--cat-frame:#66886b}
+.cat-options button[data-cat=ohagi]{--cat-frame:#ad7d83}
+.cat-options button[data-cat=daifuku]{--cat-frame:#ae8d43}
+.cat-options button[data-cat=castella]{--cat-frame:#9275ae}
+.cat-options button[data-cat].selected{border-color:var(--cat-frame);box-shadow:0 0 0 1px var(--cat-frame)}
+.header-actions button,.secondary,.park-tour-button,.camera-actions button,.inspect-tools button{border-color:#a3ad93}
+.cat-profile{box-shadow:inset 0 0 0 1px #c7bea6}
