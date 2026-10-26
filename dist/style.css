@@ -114,3 +114,79 @@ dialog{max-width:490px;width:calc(100% - 30px);max-height:88svh;overflow:auto;ba
 .cat-options button[data-cat].selected{border-color:var(--cat-frame);box-shadow:0 0 0 1px var(--cat-frame)}
 .header-actions button,.secondary,.park-tour-button,.camera-actions button,.inspect-tools button{border-color:#a3ad93}
 .cat-profile{box-shadow:inset 0 0 0 1px #c7bea6}
+/* Gameplay fits the visible browser area, including mobile address bars and zoom. */
+.has-session{display:flex;flex-direction:column;height:calc(100svh - 16px);min-width:0}
+.has-session .game-toolbar,.has-session .arcade-bar,.has-session .game-bottom{flex-shrink:0}
+.has-session .scene-wrap{flex:1;min-width:0;min-height:0;height:auto}
+.has-session #game{display:block;width:100%;height:100%!important;min-width:0;min-height:0;aspect-ratio:auto}
+html.touch-session-root,body.touch-session{overflow:hidden;overscroll-behavior:none}
+.touch-session .play-area.has-session{position:fixed;z-index:50;left:var(--play-left,0px);top:var(--play-top,0px);width:var(--play-width,100vw);height:var(--play-height,100dvh);max-width:none;max-height:none;min-width:0;margin:0;border-radius:0;scroll-margin:0;box-sizing:border-box;box-shadow:none}
+.touch-session .game-toolbar{height:48px;padding:0 8px;gap:4px}
+.touch-session .location{min-width:0;gap:7px}
+.touch-session .step-no{font-size:25px;padding-right:8px}
+.touch-session .location small{font-size:7px;letter-spacing:.6px}
+.touch-session .location strong{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:145px}
+.touch-session .toolbar-actions{gap:0;flex-shrink:0}
+.touch-session .toolbar-actions button{width:42px;height:44px;font-size:18px}
+.touch-session #fullscreen{display:none}
+.touch-session .arcade-bar{min-height:46px;padding:6px 8px;gap:8px;flex-wrap:nowrap}
+.touch-session .hunt-bar #caught-count{font-size:13px;flex-shrink:0}
+.touch-session .score-track{min-width:22px;max-width:none;flex:1}
+.touch-session .score-track strong{font-size:9px}
+.touch-session .hunt-score{min-width:45px;margin-left:0;flex-shrink:0}
+.touch-session .hunt-score strong{font-size:13px}
+.touch-session .hunt-bar .clock{font-size:16px;flex-shrink:0}
+.touch-session .game-bottom{height:26px;padding:0 8px;font-size:9px;min-width:0;overflow:hidden}
+.touch-session .game-bottom #status{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.touch-session .game-bottom .speed-note{font-size:8px}
+.touch-session .curtain{overflow-y:auto}
+.touch-session [data-menu]{margin-top:14px;min-height:40px}
+#game-sound{font-size:16px}
+
+/* The controls now have their own panel and never cover or extend past the scene. */
+.dual-controls.hunt-controls.controls-dock{position:relative;inset:auto;flex:0 0 auto;align-items:flex-end;justify-content:space-between;gap:12px;width:100%;height:calc(var(--control-dockHeight,146px) + env(safe-area-inset-bottom,0px));min-height:0;padding:9px max(12px,env(safe-area-inset-right,0px)) calc(9px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));border-top:2px solid var(--frame);background:#eee8d7;box-sizing:border-box;touch-action:none}
+.controls-dock.hunt-controls .left-controls{width:var(--control-leftWidth,120px);gap:8px;flex-shrink:0}
+.controls-dock.hunt-controls #move-stick{--size:var(--control-move,112px);width:var(--size);height:var(--size);flex-basis:var(--size);flex-shrink:0}
+.controls-dock.hunt-controls #look-stick{--size:var(--control-look,62px);width:var(--size);height:var(--size);flex-basis:var(--size);opacity:1}
+.controls-dock .virtual-stick{border-color:#78977f;background:radial-gradient(circle,#e7efdc,#a1bfb0);box-shadow:inset 0 0 0 4px #fff9e730}
+.controls-dock .stick-thumb{border-color:#73937b;background:radial-gradient(circle at 35% 25%,#fff9df,#b9ceb0)}
+.controls-dock.hunt-controls .stick-label{color:#385d49;text-shadow:none;font-size:10px;letter-spacing:1px}
+.controls-dock.hunt-controls #look-stick .stick-label{font-size:8px;bottom:3px}
+.controls-dock.hunt-controls .control-actions{grid-template-columns:repeat(2,var(--control-action,56px));grid-template-rows:var(--control-action,56px);gap:8px}
+.controls-dock.hunt-controls #jump,.controls-dock.hunt-controls #meow{min-width:44px;min-height:var(--control-action,56px);width:var(--control-action,56px);height:var(--control-action,56px);border-color:#809a7c;font-size:23px;border-radius:50%}
+.controls-dock.hunt-controls #jump small,.controls-dock.hunt-controls #meow small{font-size:9px}
+.horizontal-controls .controls-dock .left-controls{flex-direction:row;width:auto;align-items:center;gap:10px}
+.stacked-controls .controls-dock.hunt-controls .control-actions{grid-template-columns:var(--control-action,44px);grid-template-rows:repeat(2,var(--control-action,44px));gap:6px}
+.stacked-controls .controls-dock.hunt-controls .left-controls{gap:6px}
+.stacked-controls.touch-session .location strong,.stacked-controls.touch-session #help-game,.stacked-controls.touch-session .score-track,.stacked-controls.touch-session #best-score{display:none}
+.stacked-controls.touch-session .location{gap:3px}
+.stacked-controls.touch-session .step-no{font-size:18px;padding-right:4px}
+.stacked-controls.touch-session .toolbar-actions button{width:40px}
+.stacked-controls.touch-session .hunt-bar{justify-content:space-between;gap:4px}
+.stacked-controls.touch-session .hunt-bar .clock{font-size:14px}
+.stacked-controls.touch-session .hunt-score{min-width:35px}
+.stacked-controls.touch-session .game-bottom .speed-note{display:none}
+.scene-hud .camera-actions{top:8px;right:8px}
+.scene-hud .camera-actions button{min-height:40px;padding:7px 9px;font-size:11px;background:#fff9e8ed}
+.minimap{position:absolute;left:8px;top:8px;width:86px;padding:3px;border:1px solid #7c9276;border-radius:9px;background:#fff9e8ed;pointer-events:auto;box-shadow:0 2px 8px #24453725;color:#48634c;cursor:pointer}
+#map-toggle #map{position:static;display:block;width:100%;height:auto;aspect-ratio:1;border:0;border-radius:5px;box-shadow:none}
+.minimap>span{display:block;font-size:9px;line-height:1.3;padding-top:2px}
+.minimap.expanded{width:min(160px,52%)}
+@media(max-height:500px){
+ .touch-session .game-toolbar{height:44px}
+ .touch-session .arcade-bar{min-height:40px;padding:4px 8px}
+ .touch-session .game-bottom{height:23px}
+ .touch-session .curtain{justify-content:flex-start;padding:12px}
+ .minimap{width:62px;top:6px;left:6px}
+ .minimap.expanded{width:136px}
+}
+.compact-map .minimap>span{display:none}.compact-map .minimap{top:6px;left:6px}
+
+.pause-cat-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;width:260px;max-width:100%;margin:0 0 18px}.pause-cat-options button{min-height:44px;background:#f5edd9;color:#47644c;border:1px solid #a8ad91;border-radius:8px;padding:6px;font:inherit;font-size:12px}.pause-cat-options small{display:block;font-size:9px;margin-top:2px}.pause-cat-options [aria-pressed=true]{background:#dfeacf;border-color:#6e936e;box-shadow:0 0 0 1px #6e936e}
+.touch-session .game-toolbar{height:calc(48px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px);padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+.touch-session .arcade-bar{padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+.touch-session .dual-controls.hunt-controls.controls-dock{height:var(--control-dockHeight,146px);padding-bottom:9px}
+.touch-session .game-bottom{height:calc(26px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px)}
+.scene-hud .camera-actions{right:max(8px,env(safe-area-inset-right,0px))}
+.minimap{left:max(8px,env(safe-area-inset-left,0px))}
+@media(max-height:500px){.touch-session .game-toolbar{height:calc(44px + env(safe-area-inset-top,0px))}.touch-session .game-bottom{height:calc(23px + env(safe-area-inset-bottom,0px))}}

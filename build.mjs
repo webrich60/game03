@@ -11,12 +11,14 @@ const cats=`const CATS=(()=>{${strip(await read('./dist/cats.js'))};return {cats
 const engine=`const ENGINE=(()=>{const {cats,findCat}=CATS;${strip(await read('./dist/engine.js'))};return {HuntGame,ARENA,BONUS,distance,LEVELS};})();`;
 const model=`const CATMODEL=(()=>{const T=THREE;const {findCat}=CATS;${strip(await read('./dist/cat-model.js'))};return {createCat,animateCat};})();`;
 const parks=`const PARKS=(()=>{const T=THREE;const {ARENA}=ENGINE;${strip(await read('./dist/park-scenes.js'))};return {PARK_THEMES,createParkScene,updateParkScene,disposeParkScene};})();`;
-const world=`const WORLD=(()=>{const T=THREE;const {createCat,animateCat}=CATMODEL;const {ARENA,BONUS}=ENGINE;const {cats,findCat}=CATS;const {PARK_THEMES,createParkScene,updateParkScene,disposeParkScene}=PARKS;${strip(await read('./dist/world.js'))};return {HuntWorld};})();`;
+const presentation=`const PRESENTATION=(()=>{${strip(await read('./dist/presentation.js'))};return {viewportBox,controlLayout,parkOverviewPose,mapPoint,drawMinimap};})();`;
+const sounds=`const SOUNDS=(()=>{${strip(await read('./dist/audio.js'))};return {GameAudio,synthesizeMeow};})();`;
+const world=`const WORLD=(()=>{const T=THREE;const {createCat,animateCat}=CATMODEL;const {ARENA,BONUS}=ENGINE;const {cats,findCat}=CATS;const {PARK_THEMES,createParkScene,updateParkScene,disposeParkScene}=PARKS;const {parkOverviewPose}=PRESENTATION;${strip(await read('./dist/world.js'))};return {HuntWorld};})();`;
 const controls=`const CONTROLLERS=(()=>{${strip(await read('./dist/controllers.js'))};return {VirtualStick,ActionButton,movementVector,cameraDelta};})();`;
-const runtime=`const {HuntGame,ARENA,BONUS,distance}=ENGINE;const {cats,findCat}=CATS;const {HuntWorld}=WORLD;const {VirtualStick,ActionButton,movementVector,cameraDelta}=CONTROLLERS;${strip(await read('./dist/game.js'))}`;
+const runtime=`const {HuntGame,ARENA,BONUS,distance}=ENGINE;const {cats,findCat}=CATS;const {HuntWorld}=WORLD;const {VirtualStick,ActionButton,movementVector,cameraDelta}=CONTROLLERS;const {GameAudio}=SOUNDS;const {viewportBox,controlLayout,drawMinimap}=PRESENTATION;${strip(await read('./dist/game.js'))}`;
 const art=(await readFile(new URL('./dist/assets/cat-trio-anime.png',import.meta.url))).toString('base64');
 const castellaArt=(await readFile(new URL('./dist/assets/castella-anime.png',import.meta.url))).toString('base64');
-const script=[catAssetBootstrap(art),catAssetBootstrap(castellaArt).replace("'--cat-art'","'--castella-art'"),three,cats,engine,model,parks,world,controls,runtime].join('\n');
+const script=[catAssetBootstrap(art),catAssetBootstrap(castellaArt).replace("'--cat-art'","'--castella-art'"),three,cats,engine,model,parks,presentation,sounds,world,controls,runtime].join('\n');
 if(/^import\s/m.test(script))throw new Error('Offline build still contains imports');
 let css=removeCssImports(await read('./dist/style.css')).replace(/--cat-art:url\('assets\/cat-trio-anime\.png'\);?/,'');
 css=css.replace(/--castella-art:url\('assets\/castella-anime\.png'\);?/,'');
