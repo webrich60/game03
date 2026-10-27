@@ -1,5 +1,5 @@
 export const cats=[
- {id:'monaka',name:'最中',reading:'モナカ',trait:'やんちゃ',color:'#a7d9bd',crop:[0,.327],speed:5.8,pounce:{speed:10,duration:.42,cooldown:1.5,reach:1.35,aimMoving:false},pickupReach:1,
+ {id:'monaka',name:'もなか',reading:'もなか',trait:'やんちゃ',color:'#a7d9bd',crop:[0,.327],speed:5.8,pounce:{speed:10,duration:.42,cooldown:1.5,reach:1.35,aimMoving:false},pickupReach:1,
  description:'弾む走りでまっしぐら！ 捕まえると前足を上げて2回ジャンプ。',quote:'いっくぞー！ みんな、まてまてー！',preview:{motion:'celebrate',duration:2.2},
  reactions:{meow:{motion:'celebrate',duration:1.35},catch:{motion:'celebrate',duration:1.35,lines:['やったー！ もう1匹いくぞ！','つかまえたっ！ まだまだ遊ぼ！']},bonus:{motion:'celebrate',duration:.7,lines:['ボーナスも、いっただきー！']},pounce:{lines:['そーれっ！']}}},
  {id:'ohagi',name:'おはぎ',trait:'真面目',color:'#efb0b3',crop:[.329,.635],speed:5.4,pounce:{speed:9.1,duration:.38,cooldown:1.35,reach:1.45,aimMoving:true},pickupReach:1,
